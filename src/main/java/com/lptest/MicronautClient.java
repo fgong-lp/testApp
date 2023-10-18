@@ -35,14 +35,16 @@ public interface MicronautClient {
         public ConnectionPoolConfiguration getConnectionPoolConfiguration() {
             return configuration.getConnectionPoolConfiguration();
         }
-
-        @Override
-        public Optional<Duration> getReadTimeout() {
-            return Optional.of(Duration.ofSeconds(2));
-        }
-        @Override
-        public Optional<Duration> getConnectionPoolIdleTimeout() {
-            return Optional.of(Duration.ofSeconds(7));
-        }
+        /*
+        Note: below override methods for timeout configs don't seem to take effect. With/without them, doesn't make a difference
+         */
+//        @Override
+//        public Optional<Duration> getReadTimeout() {
+//            return Optional.of(Duration.ofSeconds(4));
+//        }
+//        @Override
+//        public Optional<Duration> getConnectionPoolIdleTimeout() {
+//            return Optional.of(Duration.ofSeconds(7));
+//        }
     }
 }

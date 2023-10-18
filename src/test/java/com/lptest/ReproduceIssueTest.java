@@ -29,23 +29,25 @@ class ReproduceIssueTest {
     void runTest() throws InterruptedException {
 
         runExperiment(100L);
-        runExperiment(1950L);
-//        runExperiment(3500L);
-        runExperiment(4900L);
-        runExperiment(6900L);
+        // with delays between 4.95s - 5.95s, every other request would consistently fail, throwing this ResponseClosedException.
+        runExperiment(4950L);
+//        runExperiment(5450L);
+        runExperiment(5950L);
+        // when the delayMillis is set to be even larger, there are consistent warnings showing up among requests
+        runExperiment(6100L);
     }
 
     private void runExperiment(Long delayMillis) throws InterruptedException {
         System.out.printf("%n Running 10 request with %d ms delay between requests %n %n", delayMillis);
         Clock clock = Clock.systemUTC();
+        URI uri = UriBuilder.of("/").build();
+        MutableHttpRequest<Object> req = HttpRequest.GET(uri)
+                .header(AUTHORIZATION, FAKE_TOKEN);
 
         for(int i = 0; i <= 10; i++ ) {
             long start = clock.instant().toEpochMilli();
             HttpResponse<?> result = null;
             try {
-                URI uri = UriBuilder.of("/").build();
-                MutableHttpRequest<Object> req = HttpRequest.GET(uri)
-                        .header(AUTHORIZATION, FAKE_TOKEN);
                 result = client.toBlocking().exchange(req, String.class);
             } catch (HttpClientResponseException e) {
                 result = e.getResponse();
