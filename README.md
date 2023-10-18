@@ -4,7 +4,7 @@ With the fix provided in Micronaut 4.1.2 and beyond, the ReadTimeout issue no lo
 
 This repository has the code to reproduce the issue with ResponseClosedException, as described in () 
 
-It implements a Micronaut 4.1.x service that counts the number of bytes of https://micronaut.io/launch landing page.
+It is also to implements a Micronaut 4.1.x service that counts the number of bytes of https://micronaut.io/launch landing page.
 
 # How to reproduce
 Use Java 17. 
@@ -14,11 +14,12 @@ Use Java 17.
    ```
     ./gradlew test --info
    ```
-or
+   or
 
-run the ReproduceErrorTest.java
+   run the ReproduceErrorTest.java
 
-2. Check when the delay is set to 4.9s, at some point, the request(s) fails due to it utilizing the stale connection from connection pool that is about to timeout. The current default value of readTimeout in HttpClientConfiguration class is 10 in micronaut 4.1.2 through 4.1.4. It's twice of the delay thus can reproduce the exception easily.
+2. The current repository overrides the connection-pool-idle-timeout to 7s (default as 10s). When running the test for requests with delays of 6.9s, requests would consistently encounter this ResponseClosedException issue due to it utilizing the stale connections from connection pool that are about to timeout.
+   If this value is not being overriden, check when the delay of 4.9s in the test, at some point, some request(s) fails as well.
 
 3. If the issue is not found in step 2, do gradlew clean and redo step 1 & 2
    ```

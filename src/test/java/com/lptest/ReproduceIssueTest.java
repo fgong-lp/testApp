@@ -32,6 +32,7 @@ class ReproduceIssueTest {
         runExperiment(1950L);
 //        runExperiment(3500L);
         runExperiment(4900L);
+        runExperiment(6900L);
     }
 
     private void runExperiment(Long delayMillis) throws InterruptedException {

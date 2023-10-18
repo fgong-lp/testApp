@@ -35,16 +35,14 @@ public interface MicronautClient {
         public ConnectionPoolConfiguration getConnectionPoolConfiguration() {
             return configuration.getConnectionPoolConfiguration();
         }
-        /*
-        Suspecting that it doesn't read the ReadTimeout below -- it persists reading the default value of 10s
-         */
+
         @Override
         public Optional<Duration> getReadTimeout() {
-            return Optional.of(Duration.ofSeconds(8));
+            return Optional.of(Duration.ofSeconds(2));
         }
-//        @Override
-//        public Optional<Duration> getConnectionPoolIdleTimeout() {
-//            return Optional.of(Duration.ofSeconds(5));
-//        }
+        @Override
+        public Optional<Duration> getConnectionPoolIdleTimeout() {
+            return Optional.of(Duration.ofSeconds(7));
+        }
     }
 }
